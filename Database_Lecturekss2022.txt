@@ -1,0 +1,519 @@
+16-08-2022 :
+------------
+
+DATABASE :
+
+* MYsql V/s Oracal .
+* Oracal database express edition installation.
+
+
+Oracal DB:-
+----------
+=> connect system // conn sys as sysdba &&  In CMD write (sqlplus -> then we can connect Oracal DB ). 
+=> show errors;
+=> set serverport on;
+=> set serveroutput on;
+=> set autocommit on / off;
+=> show all;
+=> set env_var value;
+=> savepoint p1;
+=> rollback to p1;
+=> select * from all_tables;
+=> select * from cols;
+=> desc all_tables;
+=> select table_name,cluster_name from all_tables;
+=> exp system/123 file='d://mybackup.dmp'
+=> exp system/123 file='d://mybackup.dmp' full=y
+
+Commond Type -
+1. DDL - (create, alter, drop, truncate, rename).
+a2. DML - (insert, update, delete).
+3. DCL - (grant, revoke).
+4. TCL - (savepoint, rollback, commit).
+5. DQL - (select, ).
+
+DataType -
+---------
+1.char 2.nchar 3.varchar 4.varchar2 5.nvarchar 6.int 
+7.blob 8.bfile
+
+Table Creation -
+* Create table emp(id number(5),name varchar2(50), address varchar2(100));
+
+Display(getRecord) -
+--------------------
+* desc emp ;  - (Show table Structure)
+* set linesize 500;
+* Select * from emp; - (Show table data)
+ 
+column name correction -
+* select empno,ename as emp_name from emp;
+
+Arthmetical operation -
+* select sal+51000 from emp;
+* select (sal*25/100)+sal from emp;
+
+Where cluse -
+------------
+* select * from emp where empno=7844; -(varchar , varchar2 cloumn records are case senstive) .
+AND
+* select * from emp where job='Analyst' and sal >=1000;
+* select * from emp where mgr=7839 and deptno=10;
+OR 
+* select * from emp where job='clerk' or sal<2000 ;
+between
+* select * from emp where comm between 2000 and 15000;
+IN
+* select * from emp where job in ('CLERK','ANALYST','PRESIDENT');
+* select * from emp where deptno in(10,30);
+* select * from emp where ename in('SMITH','KING','FORD') and job in('Clerk','ANALYST');
+NULL
+* select * from emp where comm is null;
+* select * from emp where MGR is not Null;
+LIKE
+* select * from emp where ename like 'S%';  - (Some ex: 'J_N%','__R_E%' ,'%T' ,'73%','7%')
+DISTINCT
+* select DISTINCT * from emp;
+* select DISTINCT ename from emp;
+ORDER BY
+* select * from emp order by DEPTNO ASC/DESC;
+GROUP BY
+* select  deptno, count(*) from emp group by deptno;
+* select deptno, sum(sal) from emp group by deptno order by deptno;
+* select deptno, min(sal) from emp group by deptno order by deptno; - (min(), max() , avg())
+* select job, count(*) as TEMP from emp group by job;
+HAVING
+* select job, count(*) as TEMP from emp group by job having count(*)>3;
+
+
+Insertion -
+* Insert into emp values(101,'Shubham','karwi chitrakoot');
+* insert into emp(id,name) values(102,'Satyam');
+* insert into emp(id,name) values(&emp_id,'&emp_name') //(we can pass any con.msgname)&id,&name;
+* insert all 
+into emp values(103,'Pramod','India')
+into emp values(104,'Suraj','Banglore')
+select * from dual;
+
+Updation -
+* update emp set comm=350 where empno=7902 and ename='FORD';
+* update emp set job='SALEMAN', sal=5000, deptno=30 where empno=7902;
+* update emp set sal=10000 where job in('CLERK','ANALYST','SALESMAN');
+* update emp set deptno=40 where job='SALESMAN';
+
+
+Save -
+* Commit; (save the above work)
+
+Deletion-
+* truncate table emp; (table all data deletion)
+* delete from emp where name ='Satyam';
+* Drop table emp; (table removed from DB)
+
+
+
+DATATYPE :
+1.Number() 2.Varchar() 3.Varchar2() 4. 
+
+
+Table Schema Changes(alter) -
+-----------------------------
+Add -
+* alter table suppliers add mobno varchar2(20);
+* alter table suppliers add(location varchar2(100), ptype varchar2(20));
+Modify -
+* alter table suppliers modify id number(20);
+* alter table suppliers modify(location varchar2(150), ptype varchar(50));
+Drop -
+* alter table suppliers set unset location;
+* alter table suppliers drop column location;
+* alter table suppliers drop(ptype); 
+* alter table suppliers drop(ptype,...n); 
+Rename -
+* alter table suppliers rename column id to sid;
+* alter table suppliers rename to sup_details;
+* RENAME table_name TO new_table_name;
+
+
+Join :-
+======
+INNER JOIN -
+* select * from emp inner join dept on empno=deptno=dept.deptno;
+* select emp.empno,emp.ename,emp.sal,dept.deptno,dept.loc from emp inner join dept on emp.deptno=dept.deptno;
+OUTER JOIN -
+(i): Left join :
+* select * from emp left outer join dept on emp.deptno=dept.deptno;
+* select * from emp left join dept on emp.deptno=dept.deptno;
+(ii): Right Join :
+* select * from emp right join dept on emp.deptno=dept.deptno;
+(iii): Full Join :
+* select * from emp full join dept on emp.deptno=dept.deptno;
+
+ENQUI JOIN -
+* select * from emp ,dept where emp.deptno=dept.deptno;
+SELF JOIN -
+* select * from emp a,emp b where a.deptno=b.deptno;
+* select * from a,emp b where a.empno=b.mgr;
+CROSS JOIN -
+* select * from emp cross join dept;
+ANTI JOIN -
+*select * from dept where not exists(select * from emp where emp.deptno=dept.deptno);
+SEMI JOIN -
+*select * from dept where exists(select * from emp where emp.deptno=dept.deptno);
+
+SUB QUERY -
+* select * from dept where not exists(select * from emp where emp.deptno=dept.deptno);
+* select * from dept where exists(select * from emp where emp.deptno=dept.deptno);
+
+VIEW :-
+======
+Creation -
+* create view empview as select empno,job,mgr from emp;
+Display-
+* select * from empview;
+
+UNION , UNION ALL -
+* select deptno from emp union select deptno from dept;	-( only Maching Record)
+* select deptno from emp union all select deptno from dept; - ( All Maching/ Unmaching Record)
+Minus -
+* select deptno from emp minus select deptno from dept;
+* select deptno from emp intersect select deptno from dept;
+
+Constaint Key :-
+===============
+1.not null ,null -
+* create table products (id number(5) not null, ...n);
+2.unique -
+* create table products (id number(5) unique, ...n);
+3.primary key-
+* create table products (id number(5) primary key, ...n);
+4. foreign key-
+* create table products (id number(5) refrences productlist(id), ...n);
+5. check -
+*create table products (id number(5) primary key ,price number(5) check(price>100) );
+
+
+DATE -
+* create table tbl_students(name varchar2(20),dob date);
+* insert into tbl_student values('Sumit','24-Aug-2022'); defual format 'DD-MM-YYYY' 
+* insert into tbl_student values('Sumit',to_date('2022-Aug-25','YYYY-Mon-DD');  We can set date format by to_date();
+* select name , to_char(to_date(dob),'YYYY-Mon-DD') from tbl_students;
+
+
+PLSQL :-
+=======
+Printing function - 
+dbms_output.put_line('sting') // dbms_output.put_line('string'||variable);
+
+*declare 
+a number(5):=5;
+b number(5):=10;
+begin
+if(a>b) then
+dbms_output.put_line('Max isa='||a);
+elseif(b>a) then
+dbms_output.put_line('testing of elsif='||a);
+else
+dbms_output.put_line('max is b='||b);
+end if;
+end;
+/
+
+* declare
+a number(10):=22;
+b number(10):=33;
+c number(10):=44;
+begin
+if a>b and a>c then
+dbms_output.put_line('higher no is :'||a);
+elsif b>a and b>c then
+dbms_output.put_line(higher no is :'||b);
+else
+dbms_output.put_line(heigher no is :'||c)
+end;
+/ 
+
+SWITCH CASE -
+*Declare
+grade char(1):='B';
+begin
+case grade
+when 'A' then dbms_output.put_line('Excellent');
+when 'B' then dbms_output.put_line('Good');
+when 'C' then dbms_output.put_line('Average');
+when 'D' then dbms_output.put_line('Fail');
+end case;
+end;
+/
+
+LOOP :-
+======
+While Loop -
+
+declare 
+i number(2):=1;
+begin 
+while i<10 loop
+dbms_output.put_line(i);
+i:=i+1;
+end loop;
+end;
+/
+
+*declare
+no number(10):=11;
+i number(10):=1
+begin
+dbms_output.put_line('Your Entered no Table is Below -');
+while i<10 loop
+no:= no*i;
+dbms_output.put_line(' '||no);
+//dbms_output.put_line('Table is -'||no*1);
+i:=i+1;
+end loop;
+end;
+/
+
+For loop -
+* begin 
+for i in 1..10 loop
+if i<5 then
+continue;
+end if;
+dbms_output.put_line(i);
+end loop;
+end;
+/
+
+GOTO -
+* begin
+dbms_output.put_line('EXEMPLE OF GOTO STATEMENT');
+goto p1;
+dbms_output_out_line('MSG_1');
+dbms_output_out_line('MSG_2');
+<p1>
+dbms_output.put_line('Calling goto ststement');
+end;
+/
+
+EXIT -
+*Declare
+i number :=1;
+begin
+loop
+dbms_output.put_line(i);
+i:=i+1;
+exit when (i>8);  // exit when (true)
+end loop;
+end;
+/
+
+
+FUNCTION & PROCEDURE:-
+=====================
+*create or replace procedure display
+is
+begin
+dbms_output.put_line('hello');
+end;
+/
+
+Calling -
+*execute procedure_name; ex:- execute display;
+
+Removing-
+* drop procedure display;
+
+Prametter type's:-
+1.in  2.out  3.in out
+
+* create or replace procedure myadd(a in number, b in number)
+is 
+begin
+dbms_output.put_line('Addition is ='||(a+b));
+end;
+/ 
+
+ex: execute myadd(5,10);
+
+Creation -
+*create or replace procedure myadd(a in number, b in number, c out number)
+is 
+begin
+c:=a+b;
+end;
+/ 
+
+calling/access-
+*declare
+sum number;
+begin
+myadd(5,10,sum);
+dbms_output.put_line('addition='||sum);
+end;
+/
+
+Function :- 
+-----------
+create or replace function adder(a in number, b in number)
+return number
+is
+c number;
+begin
+c:=a+b;
+return c;
+end;
+/
+
+declare 
+x number;
+begin
+x:=adder(5,55);
+dbms_output.put_line('Result = '||x);
+end;
+/
+
+*Maximum number of two number
+Declare
+a number(5):=5;
+b number(5):=10;
+begin
+if(a>b) then
+        dbms_output.put_line('Max is a='||a);
+
+elsif (b>a) then
+        dbms_output.put_line('testing of elseif ='||a);
+
+else 
+   dbms_output.put_line('Max is b='||b);
+
+end if;
+end;
+/
+
+*Check Big in three number
+Declare
+a number(5):=5;
+b number(5):=10;
+c number(5):=5;
+begin
+if(a>b and a>c) then
+        dbms_output.put_line('Max is a='||a);
+
+elsif (b>a and b>c) then
+        dbms_output.put_line('Max is b='||b);
+
+else 
+   dbms_output.put_line('Max is c='||c);
+
+end if;
+end;
+/
+
+create or replace function adder(a in number, b in number)
+return number
+is
+c number;
+begin
+c:=a+b;
+return c;
+end;
+/
+
+declare 
+x number;
+begin
+x:=adder(&a,&b);
+dbms_output.put_line('Result = '||x);
+end;
+/
+
+create or replace function maxnum(a in number, b in number)
+return number
+is
+res number;
+begin
+if(a>b) then
+res:=a;
+else
+res:=b;
+end if;
+return res;
+end;
+/
+
+declare 
+x number;
+begin
+x:=maxnum(5,50);
+dbms_output.put_line('max number is ='||x);
+end;
+/
+
+Exeption :-
+----------
+declare
+name emp.ename%type;
+newsal emp.sal%type;
+begin
+select ename, sal into name, newsal from emp where empno=7902;
+dbms_output.put_line('Name = '||name);
+dbms_output.put_line('Salary = '||newsal);
+exception when no_data_found then
+     dbms_output.put_line('No such employee');
+when others then
+dbms_output.put_line('something went wrong');
+end;
+/
+
+*Khud se exception reise karna :-
+--------------------------------
+declare 
+myexception exception;
+begin
+if true then
+       raise myexception;
+end if;
+exception when myexception then
+  dbms_output.put_line('myexception raised');
+end;
+/
+
+Trigger :-
+---------
+create or replace trigger hello
+before insert on dept
+begin
+   dbms_output.put_line('hello trigger invoked just before inserting on dept');
+end;
+/
+
+insert into dept values (50,'DS','INDIA') :-
+------------------------------------------
+create or replace trigger nodrop
+before drop on schema 
+begin
+if ora_dict_obj_name='EMP' then
+ raise_application_error(-20001,'Sorry cant drop EMP table');
+ end if;
+end;
+/
+
+DCL Commond : 
+-------------
+User creation 
+*create user scott identified by 789;
+
+Grant permission -  
+* grant connect to scott;
+* grant delete,select,update on emp to scott;
+* grant create table to scott;
+
+Revoke the permission -
+* revoke connect from scott;
+* revoke delete,select,update on emp from scott;
+
+Extending the permission -
+* alter user scott quota unlimited on system;
+
+
