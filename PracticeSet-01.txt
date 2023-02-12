@@ -1,0 +1,106 @@
+Question 1: Create a database KSS_DB.
+Ans1: create database kss_db;  // (We can execute this commond on mysql)
+
+Question 2: Create Table Department with following properties –
+Ans2: create table department(dept_id number primary key,dept_name varchar(50));
+
+Question 3: Create Table Project with following properties –
+Ans3: create table project(project_id number primary key,project_name varchar(200),client_name varchar(50),technology varchar(20),due_date date);
+
+Question 4: Create Table EMP_INFO with following properties –
+Ans4: CREATE TABLE emp_info (
+emp_id number primary key,
+emp_name varchar(50),
+dept_id number,
+address varchar(200),
+mob varchar(15),
+salary number,
+join_date date,
+technology varchar(20),
+project_id number,
+constraint dept_id foreign key (dept_id) references department(dept_id), 
+CONSTRAINT Project_id FOREIGN KEY (project_id) REFERENCES project(project_id));
+
+Question 5: Add Following Records in EMP_INFO Table –
+Ans5: insert all
+into emp_info values(101,'Swapnam',501,'Noida Sector 59','+918817308696',25000,to_date('2021-02-15','YYYY-MM-DD'),'.NET',911)
+into emp_info values(102,'Amit',681,'Noida Sector 33','+916317305496',90000,to_date('2021-01-25','YYYY-MM-DD'),'JAVA',912)
+into emp_info values(103,'Jayshanker',501,'Noida Sector 18','+919559654200',75000,to_date('2021-02-20','YYYY-MM-DD'),'Python',945)
+into emp_info values(104,'Vijay prakash',501,'Noida Sector 16','+919936453447',60000,to_date('2021-02-01','YYYY-MM-DD'),'JAVA',912)
+into emp_info values(105,'Shivprashad',501,'Noida Sector 66','+919026961168',25000,to_date('2021-02-10','YYYY-MM-DD'),'.NET',911)
+into emp_info values(106,'Shivani',689,'Noida Sector 56','+917860353554',28000,to_date('2021-02-15','YYYY-MM-DD'),'Python',945)
+into emp_info values(107,'BhanuPratap',681,'Noida Sector 88','+919099237352',70000,to_date('2016-02-05','YYYY-MM-DD'),'React',945)
+into emp_info values(108,'Mansi',681,'Noida Sector 59','+919017306596',20000,to_date('2021-02-15','YYYY-MM-DD'),'Angular',911)
+into emp_info values(109,'Vivek',689,'Noida Sector 86','+918857470045',15000,to_date('2022-01-15','YYYY-MM-DD'),'.NET',911)
+into emp_info values(110,'Shubham',501,'Noida Sector 71','+919099237354',15000,to_date('2022-04-10','YYYY-MM-DD'),'JAVA',912)
+select * from dual;
+
+Question 6: Add Following Records in Department Table –
+Ans6: insert all
+into department values(501,'Development')
+into department values(681,'Designing')
+into department values(589,'Support')
+select * from dual;
+
+Question 7: Add Following Records in Project Table –
+Ans7: insert all
+into project values(911,'UCI WEB PORTAL','UCI Azamgarh','.NET',to_date('2022-10-21','YYYY-MM-DD'))
+into project values(912,'Home Decor','Home Decorators Chitrakoot','JAVA',to_date('2022-09-24','YYYY-MM-DD'))
+into project values(945,'Home Tutors','Home Tutors Prayagraj','Python',to_date('2022-08-31','YYYY-MM-DD'))
+select * from dual;
+
+Question 8: Select all records from EMP_INFO table.
+Ans8: select * from emp_info;
+
+Question 9: Select all records from Department table.
+Ans9: select * from department;
+
+Question 10: Select all records from Project table.
+Ans10: select * from project;
+
+Question 11: Select Employee who is having salary more than 50000.
+Ans11: select * from emp_info where salary>50000;
+
+Question 12: Select Employee who is having salary less than 50000.
+Ans12: select * from emp_info where salary<50000;
+
+Question 13: Select Employee who is having salary is 50000.
+Ans13: select * from emp_info where salary=50000;
+
+Question 14: Select Employee who is having salary is more than 25000 and less than 50000.
+Ans14: select * from emp_info where salary>25000 and salary<50000;
+
+Question 15: Select Employee who is having maximum salary.
+Ams15: select * from emp_info where salary=(select max(salary) from emp_info);
+
+Question 16: Select Employee who is having minimum salary.
+Ans16: select * from emp_info where salary=(select min(salary) from emp_info);
+
+Question 17: Select Employee who is working on project UCI WEB PORTAL and Technology is .NET.
+Ans17: select * from emp_info where project_id=(select * FROM project where project_name='UCI WEB PORTAL' and technology='.NET');
+
+Question 18: Select Employee whom technology is JAVA.
+Ans18: select * from emp_info where technology='JAVA';
+
+Question 19: Select Emp_Name, Salary, Join_date, from EMP_INFO table, Department 
+name from DEPARTMENT Table, Project Name from Project Table.
+Ans19: select e.emp_name,e.salary,e.join_date,d.dept_name,p.project_name from emp_info e,department d,project p where e.project_id=p.project_id and e.dept_id=d.dept_id;
+
+Question 20: Select Client_Name, Project_Name, Due_date from Project table in ascending 
+order according to Due_date.
+Ans20: select client_name,project_name,due_date from project order by due_date;
+ 
+Question 21: display records of all employees which join date is between 2021-06-12 and 
+2022-05-12.
+Ans21: select * from emp_info where join_date between to_date('2021-06-12','YYYY-MM-DD') and to_date('2022-05-12','YYYY-MM-DD');
+
+Question 22: display records of top 3 employees having maximum salary.
+Ans22: select * from emp_info where ROWNUM<=3 order by salary DESC;
+select * from emp_info order by salary DESC limit 1,3;
+
+Question 23: display count of all employees.
+Ans23: select count(*) from emp_info;
+
+Question 24: display count of all projects.
+Ans24: select count(*) from emp_info; 
+
